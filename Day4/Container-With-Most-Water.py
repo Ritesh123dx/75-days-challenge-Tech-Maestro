@@ -1,23 +1,20 @@
 class Solution:
-    def subarraySum(self, nums: List[int], k: int) -> int:
-        n = len(nums)
+    def maxArea(self, height: List[int]) -> int:
         
-        count = 0
-        hashmap = defaultdict(lambda : 0)
-        hashmap[0] = 1
-        s = 0
+        l = 0
+        r = len(height) - 1
+        ans = 0
         
-        
-        for i in range(n):
-            s += nums[i]
+        while l < r:
+            length = r - l
+            h = min(height[l], height[r])
             
-            if s - k in hashmap:
-                count += hashmap[s - k]
+            water = length*h
+            ans = max(ans, water)
             
-            hashmap[s] += 1
+            if height[l] < height[r]:
+                l += 1
+            else:
+                r -= 1
         
-        
-        
-        return count
-    
-  
+        return ans
