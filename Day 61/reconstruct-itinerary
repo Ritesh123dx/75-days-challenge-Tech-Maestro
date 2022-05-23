@@ -1,0 +1,47 @@
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        '''
+        Constraints:
+        1. All tickets must be used <-- use a counter
+        
+        2. Try every item in lexicographically fashion.
+        
+        3. Try a backtracking DFS solution to figure out the lexicographically valid path
+        
+        '''
+        def dfs(city, numTickets):
+            if numTickets == totalTickets:
+                return True
+            
+            l = graph[city]
+            for i in range(len(l) - 1, -1, -1):
+                nbr = l.pop(i)
+                
+                ans.append(nbr)
+                
+                if dfs(nbr, numTickets + 1):
+                    return True
+                
+                ans.pop()
+                l.insert(i, nbr)
+                
+                
+            return False
+                
+   
+        
+        graph = defaultdict(list)
+        
+        for x, y in tickets:
+            graph[x].append(y)
+        
+        for city in graph:
+            graph[city].sort(reverse = True)  #reverse sorting
+        
+        
+        totalTickets = len(tickets)
+        ans = ["JFK"]
+        
+        dfs("JFK", 0)
+        
+        return ans
